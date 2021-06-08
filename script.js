@@ -111,9 +111,14 @@ const creatUserNames = function (accs) {
 }
 
 creatUserNames(accounts);
-console.log(accounts);
+
+const calcPrintBalance = (movements) => {
+  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
 
 
+calcPrintBalance(account1.movements);
 
 
 
