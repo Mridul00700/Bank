@@ -90,7 +90,7 @@ const displayMovements = function (movements) {
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${`${mov} EU`}</div>
     </div>
     `
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -112,13 +112,37 @@ const creatUserNames = function (accs) {
 
 creatUserNames(accounts);
 
-const calcPrintBalance = (movements) => {
+const calcDisplayBalance = (movements) => {
   const balance = movements.reduce((acc, cur) => acc + cur, 0);
-  labelBalance.textContent = `${balance} EUR`;
+  labelBalance.textContent = `${balance} EU`;
 };
 
 
-calcPrintBalance(account1.movements);
+calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = (movements) => {
+  const incomes = movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
+  const outgoes = movements.filter(mov => mov < 0).reduce((acc, cur) => acc + cur, 0);
+  labelSumIn.textContent = `${incomes} EU`;
+  labelSumOut.textContent = `${Math.abs(outgoes)} EU`;
+
+  const interest = movements.filter(mov => mov > 0).map(deposit => deposit * .012).reduce((acc, cur) => acc + cur);
+  labelSumInterest.textContent = interest;
+
+}
+
+
+
+calcDisplaySummary(account1.movements);
+
+// // MAXIMUM - 
+// console.log(movements.reduce((acc, cur) => acc > cur ? acc : cur, movements[0]));
+
+
+// // Challenge 
+// const calcAverageHumanAge = (ages) =>
+//   ages.map((age) => age <= 2 ? (2 * age) : (16 + age * 4)).filter((age) => age > 18).reduce((acc, cur, i, arr) => acc + (cur / arr.length), 0);
+
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 
 
