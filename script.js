@@ -99,7 +99,7 @@ const displayMovements = function (movements) {
 
 }
 
-displayMovements(account1.movements);
+
 
 
 const creatUserNames = function (accs) {
@@ -118,7 +118,6 @@ const calcDisplayBalance = (movements) => {
 };
 
 
-calcDisplayBalance(account1.movements);
 
 const calcDisplaySummary = (movements) => {
   const incomes = movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
@@ -145,4 +144,29 @@ calcDisplaySummary(account1.movements);
 
 // console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 
+// Login -  Invent handlers 
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(account => account.userName === inputLoginUsername.value);
+  console.log(currentAccount);
+  currentAccount?.pin === Number(inputLoginPin.value) ? console.log('logged in ') : console.log("Invalid pin");;
+  // Display Ui and Welcome
+  labelWelcome.textContent = currentAccount === undefined ? 'Log in to get started' : `Welcome Back ${currentAccount.owner.split(' ')[0]}`;
+  currentAccount !== undefined ? containerApp.style.opacity = 100 : containerApp.style.opacity = 0;
+  inputLoginUsername.value = "";
+  inputLoginPin.value = "";
+  inputLoginPin.blur();
+
+  currentAccount && displayMovements(currentAccount.movements);
+
+  currentAccount && calcDisplayBalance(currentAccount.movements);
+
+  currentAccount && calcDisplaySummary(currentAccount.movements);
+
+
+
+
+});
 
