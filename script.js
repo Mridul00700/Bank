@@ -119,20 +119,21 @@ const calcDisplayBalance = (movements) => {
 
 
 
-const calcDisplaySummary = (movements) => {
-  const incomes = movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
-  const outgoes = movements.filter(mov => mov < 0).reduce((acc, cur) => acc + cur, 0);
+const calcDisplaySummary = (acc) => {
+  const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
+  console.log("sdsdwd");
+  const outgoes = acc.movements.filter(mov => mov < 0).reduce((acc, cur) => acc + cur, 0);
   labelSumIn.textContent = `${incomes} EU`;
   labelSumOut.textContent = `${Math.abs(outgoes)} EU`;
 
-  const interest = movements.filter(mov => mov > 0).map(deposit => deposit * .012).reduce((acc, cur) => acc + cur);
+  const interest = acc.movements.filter(mov => mov > 0).map(deposit => deposit * (acc.interestRate / 100)).reduce((acc, cur) => acc + cur);
   labelSumInterest.textContent = interest;
 
 }
 
 
 
-calcDisplaySummary(account1.movements);
+// calcDisplaySummary(account1.movements);
 
 // // MAXIMUM - 
 // console.log(movements.reduce((acc, cur) => acc > cur ? acc : cur, movements[0]));
@@ -163,10 +164,7 @@ btnLogin.addEventListener('click', function (e) {
 
   currentAccount && calcDisplayBalance(currentAccount.movements);
 
-  currentAccount && calcDisplaySummary(currentAccount.movements);
-
-
-
+  currentAccount && calcDisplaySummary(currentAccount);
 
 });
 
