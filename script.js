@@ -168,3 +168,17 @@ btnLogin.addEventListener('click', function (e) {
 
 });
 
+btnTransfer.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const receiverAccount = accounts.find((account) => account.userName === inputTransferTo.value);
+  if (receiverAccount !== undefined) {
+    console.log(amount, receiverAccount);
+  }
+  else {
+    console.log('User id not found!');
+  }
+
+})
+
