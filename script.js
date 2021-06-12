@@ -174,6 +174,7 @@ btnLogin.addEventListener('click', function (e) {
 });
 
 
+// Transfer Amount
 
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
@@ -192,6 +193,11 @@ btnTransfer.addEventListener('click', (e) => {
 
 });
 
+//  Loan Request
+
+
+//  Close Account
+
 btnClose.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -204,10 +210,5 @@ btnClose.addEventListener('click', (e) => {
     containerApp.style.opacity = 0;
 
   }
-
-
-
-
-
 });
 
