@@ -124,7 +124,6 @@ const calcDisplayBalance = (acc) => {
 
 const calcDisplaySummary = (acc) => {
   const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
-  console.log("sdsdwd");
   const outgoes = acc.movements.filter(mov => mov < 0).reduce((acc, cur) => acc + cur, 0);
   labelSumIn.textContent = `${incomes} EU`;
   labelSumOut.textContent = `${Math.abs(outgoes)} EU`;
@@ -181,12 +180,9 @@ btnTransfer.addEventListener('click', (e) => {
 
   const amount = Number(inputTransferAmount.value);
   const receiverAccount = accounts.find((account) => account.userName === inputTransferTo.value);
-  if (receiverAccount !== undefined) {
-    console.log(amount, receiverAccount);
-  }
-  else {
-    console.log('User id not found!');
-  }
+
+  inputTransferAmount.value = inputTransferTo.value = '';
+
   if (amount > 0 && receiverAccount && currentAccount.balance >= amount && currentAccount?.userName !== receiverAccount) {
     currentAccount.movements.push(-amount);
     receiverAccount.movements.push(amount);
@@ -194,5 +190,24 @@ btnTransfer.addEventListener('click', (e) => {
   }
 
 
-})
+});
+
+btnClose.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  if (currentAccount.pin === Number(inputClosePin.value) && currentAccount.userName === inputCloseUsername.value) {
+
+    const index = accounts.findIndex((acc) => acc.userName === currentAccount.userName);
+    inputCloseUsername.value = inputClosePin.value = "";
+    // console.log(index);
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+
+  }
+
+
+
+
+
+});
 
