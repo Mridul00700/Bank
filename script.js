@@ -193,8 +193,24 @@ btnTransfer.addEventListener('click', (e) => {
 
 });
 
-//  Loan Request
+//  Loan Request    10 % of the loan amount should be present as any deposits!!
 
+btnLoan.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some((dep) => dep >= (.1 * amount))) {
+    console.log("Loan Granted!");
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+    inputLoanAmount.value = "";
+  }
+  else {
+    console.log("Loan Rejected as claim is more than the limit amount!");
+    inputLoanAmount.value = "";
+  }
+
+});
 
 //  Close Account
 
