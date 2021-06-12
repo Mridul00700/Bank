@@ -112,9 +112,12 @@ const creatUserNames = function (accs) {
 
 creatUserNames(accounts);
 
-const calcDisplayBalance = (movements) => {
-  const balance = movements.reduce((acc, cur) => acc + cur, 0);
-  labelBalance.textContent = `${balance} EU`;
+
+
+const calcDisplayBalance = (acc) => {
+  acc.balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
+
+  labelBalance.textContent = `${acc.balance} EU`;
 };
 
 
@@ -129,6 +132,14 @@ const calcDisplaySummary = (acc) => {
   const interest = acc.movements.filter(mov => mov > 0).map(deposit => deposit * (acc.interestRate / 100)).reduce((acc, cur) => acc + cur);
   labelSumInterest.textContent = interest;
 
+}
+
+const updateUI = (curAcc) => {
+  curAcc && displayMovements(curAcc.movements);
+
+  curAcc && calcDisplayBalance(curAcc);
+
+  curAcc && calcDisplaySummary(curAcc);
 }
 
 
@@ -160,13 +171,10 @@ btnLogin.addEventListener('click', function (e) {
   inputLoginPin.value = "";
   inputLoginPin.blur();
 
-  currentAccount && displayMovements(currentAccount.movements);
-
-  currentAccount && calcDisplayBalance(currentAccount.movements);
-
-  currentAccount && calcDisplaySummary(currentAccount);
-
+  updateUI(currentAccount);
 });
+
+
 
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
@@ -179,6 +187,12 @@ btnTransfer.addEventListener('click', (e) => {
   else {
     console.log('User id not found!');
   }
+  if (amount > 0 && receiverAccount && currentAccount.balance >= amount && currentAccount?.userName !== receiverAccount) {
+    currentAccount.movements.push(-amount);
+    receiverAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+
 
 })
 
