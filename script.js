@@ -79,13 +79,20 @@ const displayMovements = function (movements, sort = false) {
 
   containerMovements.innerHTML = "";
 
-  movements.forEach(function (mov, i) {
+  // const movs = [...movements];
 
+  // const movs1 = sort ? movs.sort((a, b) => a - b) : movements;
+  // console.log(movs1);
+  // movs1.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     let type;
     if (mov > 0)
-      type = "deposit"
+      type = "deposit";
     else
-      type = "withdrawal"
+      type = "withdrawal";
 
     const html = `
     <div class="movements__row">
@@ -227,4 +234,15 @@ btnClose.addEventListener('click', (e) => {
 
   }
 });
+
+// Sorting 
+
+let sort = false;
+
+btnSort.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  sort = !sort;
+  displayMovements(currentAccount.movements, sort);
+})
 
