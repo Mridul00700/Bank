@@ -258,3 +258,11 @@ btnSort.addEventListener('click', (e) => {
 // const movementsUI2 = [...document.querySelectorAll('.movements__value')]
 // // })
 
+// const bankDepositSum = accounts.map(acc => acc.movements).flat().filter(mov => mov > 0).reduce((acc, curr) => acc + curr, 0);
+// console.log(bankDepositSum);
+// // flatMap( ()= > ...) instead of map
+
+// // const leastDeposit = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
+// const leastDeposit = accounts.flatMap(acc => acc.movements).reduce((acc, cur, i) => cur >= 1000 ? acc + 1 : acc, 0);
+// console.log(leastDeposit);
+
