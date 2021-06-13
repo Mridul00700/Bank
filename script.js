@@ -246,3 +246,15 @@ btnSort.addEventListener('click', (e) => {
   displayMovements(currentAccount.movements, sort);
 })
 
+
+// Practice -
+
+// labelBalance.addEventListener('click', () => {
+//   const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('EU', '')));
+// //   console.log(movementsUI);
+
+// //   // console.log(movementsUI.map(el => Number(el.textContent.replace('EU', ''))));
+
+// const movementsUI2 = [...document.querySelectorAll('.movements__value')]
+// // })
+
