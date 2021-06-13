@@ -231,7 +231,6 @@ btnClose.addEventListener('click', (e) => {
     // console.log(index);
     accounts.splice(index, 1);
     containerApp.style.opacity = 0;
-
   }
 });
 
@@ -263,6 +262,5 @@ btnSort.addEventListener('click', (e) => {
 // // flatMap( ()= > ...) instead of map
 
 // // const leastDeposit = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
-// const leastDeposit = accounts.flatMap(acc => acc.movements).reduce((acc, cur, i) => cur >= 1000 ? acc + 1 : acc, 0);
+// const leastDeposit = accounts.flatMap(acc => acc.movements).reduce((acc, cur, i) => cur >= 1000 ? acc + 1 ( ++acc): acc, 0);
 // console.log(leastDeposit);
-
