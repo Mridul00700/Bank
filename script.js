@@ -128,7 +128,13 @@ const displayMovements = function (movements, sort = false) {
   // console.log(movs1);
   // movs1.forEach(function (mov, i) {
 
+
+  // Sorting
+
   const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+
+  // Movements
 
   movs.forEach(function (mov, i) {
     let type;
@@ -140,7 +146,7 @@ const displayMovements = function (movements, sort = false) {
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-      <div class="movements__value">${`${mov} EU`}</div>
+      <div class="movements__value">${`${mov.toFixed(2)} EU`}</div>
     </div>
     `
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -167,7 +173,7 @@ creatUserNames(accounts);
 const calcDisplayBalance = (acc) => {
   acc.balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
 
-  labelBalance.textContent = `${acc.balance} EU`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)} EU`;
 };
 
 
@@ -175,11 +181,11 @@ const calcDisplayBalance = (acc) => {
 const calcDisplaySummary = (acc) => {
   const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
   const outgoes = acc.movements.filter(mov => mov < 0).reduce((acc, cur) => acc + cur, 0);
-  labelSumIn.textContent = `${incomes} EU`;
-  labelSumOut.textContent = `${Math.abs(outgoes)} EU`;
+  labelSumIn.textContent = `${incomes.toFixed(2)} EU`;
+  labelSumOut.textContent = `${Math.abs(outgoes).toFixed(2)} EU`;
 
   const interest = acc.movements.filter(mov => mov > 0).map(deposit => deposit * (acc.interestRate / 100)).reduce((acc, cur) => acc + cur);
-  labelSumInterest.textContent = interest;
+  labelSumInterest.textContent = interest.toFixed(2);
 
 }
 
@@ -212,7 +218,7 @@ btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAccount = accounts.find(account => account.userName === inputLoginUsername.value);
   console.log(currentAccount);
-  currentAccount?.pin === Number(inputLoginPin.value) ? console.log('logged in ') : console.log("Invalid pin");;
+  currentAccount?.pin === +(inputLoginPin.value) ? console.log('logged in ') : console.log("Invalid pin");;
   // Display Ui and Welcome
   labelWelcome.textContent = currentAccount === undefined ? 'Log in to get started' : `Welcome Back ${currentAccount.owner.split(' ')[0]}`;
   currentAccount !== undefined ? containerApp.style.opacity = 100 : containerApp.style.opacity = 0;
@@ -229,7 +235,7 @@ btnLogin.addEventListener('click', function (e) {
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
 
-  const amount = Number(inputTransferAmount.value);
+  const amount = +(inputTransferAmount.value);
   const receiverAccount = accounts.find((account) => account.userName === inputTransferTo.value);
 
   inputTransferAmount.value = inputTransferTo.value = '';
@@ -248,7 +254,7 @@ btnTransfer.addEventListener('click', (e) => {
 btnLoan.addEventListener('click', (e) => {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some((dep) => dep >= (.1 * amount))) {
     console.log("Loan Granted!");
     currentAccount.movements.push(amount);
@@ -267,7 +273,7 @@ btnLoan.addEventListener('click', (e) => {
 btnClose.addEventListener('click', (e) => {
   e.preventDefault();
 
-  if (currentAccount.pin === Number(inputClosePin.value) && currentAccount.userName === inputCloseUsername.value) {
+  if (currentAccount.pin === +(inputClosePin.value) && currentAccount.userName === inputCloseUsername.value) {
 
     const index = accounts.findIndex((acc) => acc.userName === currentAccount.userName);
     inputCloseUsername.value = inputClosePin.value = "";
@@ -292,10 +298,10 @@ btnSort.addEventListener('click', (e) => {
 // Practice -
 
 // labelBalance.addEventListener('click', () => {
-//   const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('EU', '')));
+//   const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => +(el.textContent.replace('EU', '')));
 // //   console.log(movementsUI);
 
-// //   // console.log(movementsUI.map(el => Number(el.textContent.replace('EU', ''))));
+// //   // console.log(movementsUI.map(el => +(el.textContent.replace('EU', ''))));
 
 // const movementsUI2 = [...document.querySelectorAll('.movements__value')]
 // // })
@@ -307,3 +313,5 @@ btnSort.addEventListener('click', (e) => {
 // // const leastDeposit = accounts.flatMap(acc => acc.movements).filter(mov => mov >= 1000).length;
 // const leastDeposit = accounts.flatMap(acc => acc.movements).reduce((acc, cur, i) => cur >= 1000 ? acc + 1 ( ++acc): acc, 0);
 // console.log(leastDeposit);
+
+
