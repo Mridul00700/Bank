@@ -118,7 +118,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
-const displayMovements = function (movements, sort = false) {
+const displayMovements = function (acc, sort = false) {
 
   containerMovements.innerHTML = "";
 
@@ -131,7 +131,7 @@ const displayMovements = function (movements, sort = false) {
 
   // Sorting
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
 
   // Movements
@@ -143,9 +143,18 @@ const displayMovements = function (movements, sort = false) {
     else
       type = "withdrawal";
 
+    const date = new Date(acc.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    const minutes = date.getMinutes();
+    const hours = date.getHours();
+
+    const displayDate = `${day}/${month}/${year}`
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+      <div class="movements__date">${displayDate}</div>
       <div class="movements__value">${`${mov.toFixed(2)} EU`}</div>
     </div>
     `
@@ -190,7 +199,7 @@ const calcDisplaySummary = (acc) => {
 }
 
 const updateUI = (curAcc) => {
-  curAcc && displayMovements(curAcc.movements);
+  curAcc && displayMovements(curAcc);
 
   curAcc && calcDisplayBalance(curAcc);
 
@@ -308,7 +317,7 @@ btnSort.addEventListener('click', (e) => {
   e.preventDefault();
 
   sort = !sort;
-  displayMovements(currentAccount.movements, sort);
+  displayMovements(currentAccount, sort);
 });
 
 
