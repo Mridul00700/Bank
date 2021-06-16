@@ -263,6 +263,8 @@ btnLogin.addEventListener('click', function (e) {
 
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
+  const date = new Date();
+  const dateCode = date.toISOString();
 
   const amount = +(inputTransferAmount.value);
   const receiverAccount = accounts.find((account) => account.userName === inputTransferTo.value);
@@ -271,7 +273,9 @@ btnTransfer.addEventListener('click', (e) => {
 
   if (amount > 0 && receiverAccount && currentAccount.balance >= amount && currentAccount?.userName !== receiverAccount) {
     currentAccount.movements.push(-amount);
+    currentAccount.movementsDates.push(dateCode);
     receiverAccount.movements.push(amount);
+    receiverAccount.movementsDates.push(dateCode);
     updateUI(currentAccount);
   }
 
