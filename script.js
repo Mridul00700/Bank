@@ -147,8 +147,8 @@ const displayMovements = function (acc, sort = false) {
     const day = `${date.getDate()}`.padStart(2, 0);
     const month = `${date.getMonth() + 1}`.padStart(2, 0);
     const year = date.getFullYear();
-    const minutes = date.getMinutes();
-    const hours = date.getHours();
+    // const minutes = date.getMinutes();
+    // const hours = date.getHours();
 
     const displayDate = `${day}/${month}/${year}`
     const html = `
@@ -223,20 +223,10 @@ const updateUI = (curAcc) => {
 // Login -  Invent handlers 
 let currentAccount;
 
-// Fake Login --
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
-
-
-const now = new Date();
-const day = `${now.getDate()}`.padStart(2, 0);
-const month = `${now.getMonth() + 1}`.padStart(2, 0);
-const year = now.getFullYear();
-const minutes = now.getMinutes();
-const hours = now.getHours();
-
-labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+// // Fake Login --
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 
 
 
@@ -247,7 +237,20 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount?.pin === +(inputLoginPin.value) ? console.log('logged in ') : console.log("Invalid pin");;
   // Display Ui and Welcome
   labelWelcome.textContent = currentAccount === undefined ? 'Log in to get started' : `Welcome Back ${currentAccount.owner.split(' ')[0]}`;
+
   currentAccount !== undefined ? containerApp.style.opacity = 100 : containerApp.style.opacity = 0;
+
+
+  const now = new Date();
+  const day = `${now.getDate()}`.padStart(2, 0);
+  const month = `${now.getMonth() + 1}`.padStart(2, 0);
+  const year = now.getFullYear();
+  const minutes = now.getMinutes();
+  const hours = now.getHours();
+
+  labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+
+
   inputLoginUsername.value = "";
   inputLoginPin.value = "";
   inputLoginPin.blur();
@@ -279,11 +282,15 @@ btnTransfer.addEventListener('click', (e) => {
 
 btnLoan.addEventListener('click', (e) => {
   e.preventDefault();
+  const date = new Date();
+  const dateCode = date.toISOString();
 
   const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some((dep) => dep >= (.1 * amount))) {
     console.log("Loan Granted!");
     currentAccount.movements.push(amount);
+    currentAccount.movementsDates.push(dateCode);
+
     updateUI(currentAccount);
     inputLoanAmount.value = "";
   }
