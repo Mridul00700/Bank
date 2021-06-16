@@ -214,6 +214,23 @@ const updateUI = (curAcc) => {
 // Login -  Invent handlers 
 let currentAccount;
 
+// Fake Login --
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+
+const now = new Date();
+const day = `${now.getDate()}`.padStart(2, 0);
+const month = `${now.getMonth() + 1}`.padStart(2, 0);
+const year = now.getFullYear();
+const minutes = now.getMinutes();
+const hours = now.getHours();
+
+labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+
+
+
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAccount = accounts.find(account => account.userName === inputLoginUsername.value);
@@ -292,7 +309,11 @@ btnSort.addEventListener('click', (e) => {
 
   sort = !sort;
   displayMovements(currentAccount.movements, sort);
-})
+});
+
+
+
+
 
 
 // Practice -
@@ -315,3 +336,4 @@ btnSort.addEventListener('click', (e) => {
 // console.log(leastDeposit);
 
 
+// console.log(new Date(`${account1.movementsDates[0]}`));
