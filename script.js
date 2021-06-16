@@ -68,9 +68,9 @@ const account2 = {
     '2019-12-25T06:04:23.907Z',
     '2020-01-25T14:18:46.235Z',
     '2020-02-05T16:33:06.386Z',
-    '2020-04-10T14:43:26.374Z',
-    '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2021-06-13T14:43:26.374Z',
+    '2021-06-14T18:49:59.371Z',
+    '2021-06-15T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -118,6 +118,30 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
+const formatMovement = date => {
+
+  const calcDays = (day1, day2) => Math.round(Math.abs((day2 - day1) / (1000 * 3600 * 24)));
+
+  const daysPassed = calcDays(new Date(), date)
+  console.log(daysPassed);
+
+  if (daysPassed === 0) return 'Today';
+
+  if (daysPassed === 1) return 'Yesterday';
+
+  if (daysPassed <= 7) return `${daysPassed} days ago`
+
+  else {
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    // const minutes = date.getMinutes();
+    // const hours = date.getHours();
+    return `${day}/${month}/${year}`;
+  }
+}
+
+
 const displayMovements = function (acc, sort = false) {
 
   containerMovements.innerHTML = "";
@@ -144,13 +168,8 @@ const displayMovements = function (acc, sort = false) {
       type = "withdrawal";
 
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    // const minutes = date.getMinutes();
-    // const hours = date.getHours();
 
-    const displayDate = `${day}/${month}/${year}`
+    const displayDate = formatMovement(date);
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
@@ -245,8 +264,8 @@ btnLogin.addEventListener('click', function (e) {
   const day = `${now.getDate()}`.padStart(2, 0);
   const month = `${now.getMonth() + 1}`.padStart(2, 0);
   const year = now.getFullYear();
-  const minutes = now.getMinutes();
-  const hours = now.getHours();
+  const minutes = `${now.getMinutes()}`.padStart(2, 0);
+  const hours = `${now.getHours()}`.padStart(2, 0);
 
   labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
 
