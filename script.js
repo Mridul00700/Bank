@@ -371,7 +371,12 @@ btnTransfer.addEventListener('click', (e) => {
     receiverAccount.movements.push(amount);
     receiverAccount.movementsDates.push(dateCode);
     updateUI(currentAccount);
+
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
+
+
 
 
 });
@@ -385,6 +390,9 @@ btnLoan.addEventListener('click', (e) => {
 
   const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some((dep) => dep >= (.1 * amount))) {
+
+    clearInterval(timer);
+    timer = startLogoutTimer();
 
     // Timeout for Loan
 
