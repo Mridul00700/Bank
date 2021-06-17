@@ -237,11 +237,11 @@ const calcDisplaySummary = (acc) => {
 
   const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, cur) => acc + cur, 0);
   const outgoes = acc.movements.filter(mov => mov < 0).reduce((acc, cur) => acc + cur, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)} EU`;
-  labelSumOut.textContent = `${Math.abs(outgoes).toFixed(2)} EU`;
+  labelSumIn.textContent = formatCurrency(incomes, acc.locale, acc.currency);
+  labelSumOut.textContent = formatCurrency(Math.abs(outgoes), acc.locale, acc.currency);
 
   const interest = acc.movements.filter(mov => mov > 0).map(deposit => deposit * (acc.interestRate / 100)).reduce((acc, cur) => acc + cur);
-  labelSumInterest.textContent = interest.toFixed(2);
+  labelSumInterest.textContent = formatCurrency(interest, acc.locale, acc.currency);
 
 }
 
