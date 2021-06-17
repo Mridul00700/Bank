@@ -118,7 +118,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
-const formatMovement = date => {
+const formatMovement = (date, locale) => {
 
   const calcDays = (day1, day2) => Math.round(Math.abs((day2 - day1) / (1000 * 3600 * 24)));
 
@@ -132,12 +132,13 @@ const formatMovement = date => {
   if (daysPassed <= 7) return `${daysPassed} days ago`
 
   else {
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    // const minutes = date.getMinutes();
-    // const hours = date.getHours();
-    return `${day}/${month}/${year}`;
+    // const day = `${date.getDate()}`.padStart(2, 0);
+    // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    // const year = date.getFullYear();
+    // // const minutes = date.getMinutes();
+    // // const hours = date.getHours();
+    // return `${day}/${month}/${year}`;
+    return Intl.DateTimeFormat(locale).format(date);
   }
 }
 
@@ -169,7 +170,7 @@ const displayMovements = function (acc, sort = false) {
 
     const date = new Date(acc.movementsDates[i]);
 
-    const displayDate = formatMovement(date);
+    const displayDate = formatMovement(date, acc.locale);
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
@@ -242,10 +243,11 @@ const updateUI = (curAcc) => {
 // Login -  Invent handlers 
 let currentAccount;
 
-// // Fake Login --
+// // // Fake Login --
 // currentAccount = account1;
 // updateUI(currentAccount);
 // containerApp.style.opacity = 100;
+
 
 
 
@@ -260,14 +262,31 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount !== undefined ? containerApp.style.opacity = 100 : containerApp.style.opacity = 0;
 
 
-  const now = new Date();
-  const day = `${now.getDate()}`.padStart(2, 0);
-  const month = `${now.getMonth() + 1}`.padStart(2, 0);
-  const year = now.getFullYear();
-  const minutes = `${now.getMinutes()}`.padStart(2, 0);
-  const hours = `${now.getHours()}`.padStart(2, 0);
+  // const now = new Date();
+  // const day = `${now.getDate()}`.padStart(2, 0);
+  // const month = `${now.getMonth() + 1}`.padStart(2, 0);
+  // const year = now.getFullYear();
+  // const minutes = `${now.getMinutes()}`.padStart(2, 0);
+  // const hours = `${now.getHours()}`.padStart(2, 0);
 
-  labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+  // labelDate.textContent = `${day}/${month}/${year}, ${hours}:${minutes}`
+  const now = new Date();
+  const options = {
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    // weekday: 'long'
+  }
+
+  // // From Browser
+  // const locale = navigator.language;
+  // console.log(locale);
+
+
+  // International Date API
+  labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now);
 
 
   inputLoginUsername.value = "";
