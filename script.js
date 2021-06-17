@@ -275,11 +275,34 @@ let currentAccount;
 // updateUI(currentAccount);
 // containerApp.style.opacity = 100;
 
+const startLogoutTimer = () => {
+  let time = 10;
 
+  const timeFunc = () => {
+
+    const min = `${(Math.trunc(time / 60))}`.padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    labelTimer.textContent = `${min}:${sec}`;
+
+
+    if (time === 0) {
+      clearInterval(timer);
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = 'Log in to get started';
+    }
+    time--;
+
+
+  }
+
+  timeFunc();
+  const timer = setInterval(timeFunc, 1000)
+}
 
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
+  startLogoutTimer()
   currentAccount = accounts.find(account => account.userName === inputLoginUsername.value);
   console.log(currentAccount);
   currentAccount?.pin === +(inputLoginPin.value) ? console.log('logged in ') : console.log("Invalid pin");;
@@ -356,11 +379,17 @@ btnLoan.addEventListener('click', (e) => {
 
   const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some((dep) => dep >= (.1 * amount))) {
-    console.log("Loan Granted!");
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(dateCode);
 
-    updateUI(currentAccount);
+    // Timeout for Loan
+
+    setTimeout(() => {
+      console.log("Loan Granted!");
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(dateCode);
+
+      updateUI(currentAccount);
+
+    }, 5000);
     inputLoanAmount.value = "";
   }
   else {
