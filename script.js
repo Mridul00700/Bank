@@ -142,6 +142,15 @@ const formatMovement = (date, locale) => {
   }
 }
 
+const formatCurrency = (value, locale, currency) => {
+  const formattedMov = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency
+  }).format(value);
+
+  return formattedMov;
+}
+
 
 const displayMovements = function (acc, sort = false) {
 
@@ -172,10 +181,12 @@ const displayMovements = function (acc, sort = false) {
 
     const displayDate = formatMovement(date, acc.locale);
 
-    const formattedMov = new Intl.NumberFormat(acc.locale, {
-      style: 'currency',
-      currency: acc.currency
-    }).format(mov);
+    // const formattedMov = new Intl.NumberFormat(acc.locale, {
+    //   style: 'currency',
+    //   currency: acc.currency
+    // }).format(mov);
+
+    const formattedMov = formatCurrency(mov, acc.locale, acc.currency);
 
 
     const html = `
@@ -210,7 +221,14 @@ creatUserNames(accounts);
 const calcDisplayBalance = (acc) => {
   acc.balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
 
-  labelBalance.textContent = `${acc.balance.toFixed(2)} EU`;
+  // const formattedMov = new Intl.NumberFormat(acc.locale, {
+  //   style: 'currency',
+  //   currency: acc.currency
+  // }).format(acc.balance);
+
+  const formattedMov = formatCurrency(acc.balance, acc.locale, acc.currency);
+
+  labelBalance.textContent = formattedMov;
 };
 
 
