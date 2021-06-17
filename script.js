@@ -268,7 +268,7 @@ const updateUI = (curAcc) => {
 // console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 
 // Login -  Invent handlers 
-let currentAccount;
+let currentAccount, timer;
 
 // // // Fake Login --
 // currentAccount = account1;
@@ -276,7 +276,7 @@ let currentAccount;
 // containerApp.style.opacity = 100;
 
 const startLogoutTimer = () => {
-  let time = 30;
+  let time = 5 * 60;
 
   const timeFunc = () => {
 
@@ -291,21 +291,27 @@ const startLogoutTimer = () => {
       labelWelcome.textContent = 'Log in to get started';
     }
     time--;
-
-
   }
 
   timeFunc();
-  const timer = setInterval(timeFunc, 1000)
+
+
+  const timer = setInterval(timeFunc, 1000);
+
+  return timer;
 }
 
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
-  startLogoutTimer()
+
+  // Timer 
+  if (timer) clearInterval(timer);
+
+  timer = startLogoutTimer()
   currentAccount = accounts.find(account => account.userName === inputLoginUsername.value);
   console.log(currentAccount);
-  currentAccount?.pin === +(inputLoginPin.value) ? console.log('logged in ') : console.log("Invalid pin");;
+  currentAccount?.pin === +(inputLoginPin.value) ? console.log('logged in ') : currentAccount = undefined;
   // Display Ui and Welcome
   labelWelcome.textContent = currentAccount === undefined ? 'Log in to get started' : `Welcome Back ${currentAccount.owner.split(' ')[0]} `;
 
