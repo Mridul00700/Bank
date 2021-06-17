@@ -276,7 +276,7 @@ let currentAccount;
 // containerApp.style.opacity = 100;
 
 const startLogoutTimer = () => {
-  let time = 10;
+  let time = 30;
 
   const timeFunc = () => {
 
